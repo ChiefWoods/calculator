@@ -1,63 +1,129 @@
-let mode, input, display, result, num1, num2;
+let mode, num1 = undefined, num2 = undefined, result, decimalFlag = false, decimalCounter = 0, lastOperation = "", input = "", previousMode = "";
+
+const digit = document.querySelectorAll('.digit'); // all 10 numbers
+const operator = document.querySelectorAll('.operator'); // + - * /
+
+const previousOperation = document.querySelector('.previousOperation');
+const currentInput = document.querySelector('.currentInput');
 
 function add(a, b) {
-  return a + b;
+  result = a + b;
 }
 
 function subtract(a, b) {
-  return a - b;
+  result = a - b;
 }
 
 function multiply(a, b) {
-  return a * b;
+  result = a * b;
 }
 
 function divide(a, b) {
-  // add exception for dividing against zero
-  return a / b;
+  result = a / b;
 }
+
+const operators = {
+  add: (a, b) => result = a + b,
+  subtract: (a, b) => result = a - b,
+  multiply: (a, b) => result = a * b,
+  divide: (a, b) => result = a / b,
+}
+
+operator.addEventListener('click', operate());
 
 function operate() {
-  switch (mode) {
-    case "+":
-      result = add(num1, num2);
-      break;
-    case "-":
-      result = subtract(num1, num2);
-      break;
-    case "*":
-      result = multiply(num1, num2);
-      break;
-    case "/":
-      result = divide(num1, num2);
-      break;
+  decimalOff();
+  if (num1 == undefined) {
+    num1 = parseFloat(input);
+    previousMode = `${this.target.textContent}`;
+    lastOperation = `${num1} ${this.target.textContent}`;
+    previousOperation.textContent = lastOperation;
+  } else {
+    num2 = parseFloat(input);
+    switch (mode) {
+      case "plus":
+        operators.add(num1, num2);
+        break;
+      case "minus":
+        operators.subtract(num1, num2);
+        break;
+      case "times":
+        operators.multiply(num1, num2);
+        break;
+      case "slash":
+        operators.divide(num1, num2);
+        break;
+    }
+    if (mode != "equal") {
+      previousMode = `${this.target.textContent}`;
+      lastOperation = `${result} ${this.target.textContent}`;
+      previousOperation.textContent = lastOperation;
+      currentInput.textContent = result;
+      num1 = num2;
+    } else {
+      lastOperation = `${num1} ${previousMode} ${num2} =`;
+      previousOperation.textContent = lastOperation;
+      currentInput.textContent = result;
+      num1 = num2 = undefined;
+    }
   }
+  mode = operator.getAttribute('id');
+
 }
+
+const wipe = document.querySelector('#wipe');
+wipe.addEventListener('click', clear());
 
 function clear() {
-  // clear input
+  previousOperation.textContent = currentInput.textContent = lastOperation = input = previousMode = "";
+  num1 = num2 = result = undefined;
+  decimalOff();
 }
 
-function decimal() {
-  // disable button if decimal is used
+const dot = document.querySelector('#dot');
+dot.addEventListener('click', () => {
+  if (!decimalFlag) {
+    decimalOn();
+  }
+});
+
+function decimalOn() {
+  input = `${input}.`;
+  currentInput.textContent = `${input}`;
+  decimalFlag = true;
+  digit.addEventListener('click', () => {
+      decimalAppendInput(this);
+  });
 }
+
+function decimalAppendInput(e) {
+  input = `${input}${e.target.textContent}`;
+  currentInput.textContent = `${input}`;
+}
+
+function decimalOff() {
+  decimalFlag = false;
+  digit.removeEventListener('click', () => {
+      decimalAppendInput(this);
+  });
+}
+
+const drop = document.querySelector('#drop');
+drop.addEventListener('click', backspace());
 
 function backspace() {
-  // remove intput[input.length - 1]
+  if (input.slice(-1) == "." && decimalFlag == true) {
+    decimalOff();
+  }
+  input = input.slice(0, -1);
 }
 
-const digit = document.querySelectorAll('.digit'); // all 10 numbers
-const dot = document.querySelector('.dot');
-const plus = document.querySelector('.plus');
-const minus = document.querySelector('.minus');
-const times = document.querySelector('.times');
-const slash = document.querySelector('.slash');
-const equal = document.querySelector('.equal');
-const wipe = document.querySelector('.wipe');
-const drop = document.querySelector('.drop'); // consider merging decimal, all operators and functions under one class
+// add functionality to reenable decimal for backspace
 
+digit.addEventListener('click', enterDigit(this));
 
-plus.addEventListener('click', () => {
-  result = add(num1, num2);
-})
+function enterDigit(e) {
+  input = `${input}${e.target.textContent}`;
+  currentInput.textContent = input;
+}
 
