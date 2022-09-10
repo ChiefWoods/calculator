@@ -2,9 +2,8 @@ let mode, num1 = undefined, num2 = undefined, result, decimalFlag = false, numbe
 
 const digit = document.querySelectorAll('.digit');
 const operator = document.querySelectorAll('.operator');
-
-const previousOperation = document.querySelector('.previousOperation');
-const currentInput = document.querySelector('.currentInput');
+const equation = document.querySelector('.equation');
+const userInput = document.querySelector('.userInput');
 
 const operators = {
   add: (a, b) => result = a + b,
@@ -27,7 +26,7 @@ function operate(e) {
   if (num1 == undefined) {
     num1 = input;
     previousMode = `${e.target.textContent}`;
-    previousOperation.textContent = `${exponentialChecker(num1)} ${e.target.textContent}`;
+    equation.textContent = `${exponentialChecker(num1)} ${previousMode}`;
     mode = e.target.getAttribute('id');
     if (mode == "equal") {
       clearFlag = true;
@@ -53,17 +52,17 @@ function operate(e) {
     }
     mode = e.target.getAttribute('id');
     if (zeroFlag) {
-      previousOperation.textContent = "TO INFINITY";
-      currentInput.textContent = "AND BEYOND!";
+      equation.textContent = "TO INFINITY";
+      userInput.textContent = "AND BEYOND!";
       clearFlag = true;
     } else if (mode != "equal") {
       previousMode = `${e.target.textContent}`;
-      previousOperation.textContent = `${exponentialChecker(result)} ${e.target.textContent}`;
-      currentInput.textContent = `${exponentialChecker(result)}`;
+      equation.textContent = `${exponentialChecker(result)} ${previousMode}`;
+      userInput.textContent = `${exponentialChecker(result)}`;
       num1 = result;
     } else {
-      previousOperation.textContent = `${exponentialChecker(num1)} ${previousMode} ${exponentialChecker(num2)} =`;
-      currentInput.textContent = `${exponentialChecker(result)}`;
+      equation.textContent = `${exponentialChecker(num1)} ${previousMode} ${exponentialChecker(num2)} =`;
+      userInput.textContent = `${exponentialChecker(result)}`;
       clearFlag = true;
     }
   }
@@ -83,7 +82,7 @@ const wipe = document.querySelector('#wipe');
 wipe.addEventListener('click', clear);
 
 function clear() {
-  previousOperation.textContent = currentInput.textContent = lastOperation = input = previousMode = "";
+  equation.textContent = userInput.textContent = lastOperation = input = previousMode = "";
   num1 = num2 = result = undefined;
   numberFlag = decimalFlag = zeroFlag = false;
 }
@@ -99,12 +98,17 @@ function enterDecimal() {
   if (input.match(/\d/g) == null || input.match(/\d/g).length < 8) {
     if (clearFlag) {
       clear();
+      input = "0.";
       clearFlag = false;
     } else if (numberFlag) {
+      input = "0.";
       numberFlag = false;
+    } else if (input == "") {
+      input = "0.";
+    } else {
+      input = `${input}.`;
     }
-    input = `${input}.`;
-    currentInput.textContent = `${input}`;
+    userInput.textContent = `${input}`;
     decimalFlag = true;
   } else {
     alert("Maximum digit limit reached! Decimals are disabled.");
@@ -119,7 +123,7 @@ function backspace() {
     decimalFlag = false;
   }
   input = input.slice(0, -1);
-  currentInput.textContent = input;
+  userInput.textContent = input;
 }
 
 digit.forEach(number => number.addEventListener('click', (e) => {
@@ -144,7 +148,7 @@ function enterDigit(e) {
         input = `${input}${e.target.textContent}`;
       }
     }
-    currentInput.textContent = input;
+    userInput.textContent = input;
   } else {
     alert("Maximum digit limit reached!");
   }
