@@ -6,15 +6,8 @@ const operator = document.querySelectorAll('.operator');
 const previousOperation = document.querySelector('.previousOperation');
 const currentInput = document.querySelector('.currentInput');
 
-function test() {
-  console.log("num1 = " + num1);
-  console.log("num2 = " + num2);
-  console.log("previousMode = " + previousMode);
-  console.log("result = " + result);
-}
-
 const operators = {
-  add: (a, b) => result = a + b, // does not sum exponentials correctly, concatenated instead
+  add: (a, b) => result = a + b,
   subtract: (a, b) => result = a - b,
   multiply: (a, b) => result = a * b,
   divide: (a, b) => {
@@ -36,6 +29,9 @@ function operate(e) {
     previousMode = `${e.target.textContent}`;
     previousOperation.textContent = `${exponentialChecker(num1)} ${e.target.textContent}`;
     mode = e.target.getAttribute('id');
+    if (mode == "equal") {
+      clearFlag = true;
+    }
   } else {
     num2 = input;
     switch (mode) {
@@ -52,7 +48,9 @@ function operate(e) {
         operators.divide(parseFloat(num1), parseFloat(num2));
         break;
     }
-    result = result.toString();
+    if (result != undefined) {
+      result = result.toString();
+    }
     mode = e.target.getAttribute('id');
     if (zeroFlag) {
       previousOperation.textContent = "TO INFINITY";
@@ -75,7 +73,7 @@ function operate(e) {
 
 function exponentialChecker(numAsString) {
   if (numAsString.match(/\d/g).length > 7) {
-    return parseFloat(parseFloat(numAsString).toPrecision(7)).toExponential();
+    return parseFloat(numAsString).toExponential(6);
   } else {
     return numAsString;
   }
@@ -93,11 +91,11 @@ function clear() {
 const dot = document.querySelector('#dot');
 dot.addEventListener('click', () => {
   if (!decimalFlag) {
-    decimalOn();
+    enterDecimal();
   }
 });
 
-function decimalOn() {
+function enterDecimal() {
   if (input.match(/\d/g) == null || input.match(/\d/g).length < 8) {
     if (clearFlag) {
       clear();
@@ -128,21 +126,25 @@ digit.forEach(number => number.addEventListener('click', (e) => {
   enterDigit(e);
 }));
 
-function enterDigit(e) { // add countermeasure against spamming digits, implement limit on input
+function enterDigit(e) {
   if (input.match(/\d/g) == null || input.match(/\d/g).length < 8) {
     if (clearFlag) {
       clear();
       input = `${e.target.textContent}`;
-      currentInput.textContent = input;
       clearFlag = false;
     } else if (numberFlag) {
       input = `${e.target.textContent}`;
-      currentInput.textContent = input;
       numberFlag = false;
     } else if (!numberFlag) {
-      input = `${input}${e.target.textContent}`;
-      currentInput.textContent = input;
+      if (input == "0" && e.target.textContent != "0") {
+        input = `${e.target.textContent}`;
+      } else if (input == "0" && e.target.textContent == "0") {
+        input = "0";
+      } else {
+        input = `${input}${e.target.textContent}`;
+      }
     }
+    currentInput.textContent = input;
   } else {
     alert("Maximum digit limit reached!");
   }
