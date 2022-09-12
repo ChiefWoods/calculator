@@ -106,6 +106,12 @@ function roundAndExponent(num) {
 
 function trim(string) {
   return parseFloat(string).toString();
+
+  if (/\.$/.test(string)) return string.replace(".", ""); // "75." ends with decimal
+  else if (/\.0+$/.test(string)) return string.match(/[^\.0+$]/g).join(""); // "75.0000" ends with zeros
+  else if (/0\.0+$/.test(string)) return "0"; // "0.0000" special exception for above
+  else if (/[0-9]+\.[0-9]+0+$/.test(string)) return parseFloat(string).toString()
+  else return string;
 }
 
 function handleKeyboardInput(e) {
@@ -120,3 +126,4 @@ function handleKeyboardInput(e) {
 }
 
 // set active CSS effects when key is pressed
+
