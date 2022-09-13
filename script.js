@@ -83,9 +83,15 @@ function setOperation(mode) {
 function evaluate() {
   if (operator === "" || shouldResetInput) return;
   operand2 = trim(currentInput.textContent);
-  previousOperation.textContent = `${operand1} ${operator} ${operand2} = `;
-  currentInput.textContent = roundAndExponent(operate(operand1, operand2, operator));
-  operator = "";
+  if (operator === "/" && operand2 === "0") {
+    previousOperation.textContent = "TO INFINITY";
+    currentInput.textContent = "AND BEYOND!";
+    shouldClear = true;
+  } else {
+    previousOperation.textContent = `${operand1} ${operator} ${operand2} = `;
+    currentInput.textContent = roundAndExponent(operate(operand1, operand2, operator));
+    operator = "";
+  }
 }
 
 function operate(num1, num2, operator) {
@@ -113,10 +119,7 @@ function trim(string) {
 }
 
 function handleKeyboardInput(e) {
-  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
-    setOperation(e.key);
-    const other = document.querySelector()
-  }
+  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") setOperation(e.key);
   else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) appendNumber(e.key);
   else if (e.key === ".") appendDecimal();
   else if (e.key === "Enter") {
