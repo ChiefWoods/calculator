@@ -6,6 +6,8 @@ const decimal = document.querySelector('#decimal');
 const equal = document.querySelector('#equal');
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
+const other = document.querySelectorAll('.other');
+const erase = document.querySelectorAll('.erase');
 const previousOperation = document.querySelector('.previousOperation');
 const currentInput = document.querySelector('.currentInput');
 
@@ -26,6 +28,8 @@ equal.addEventListener('click', () => {
 numbers.forEach(number => number.addEventListener('click', () => appendNumber(number.textContent)));
 operators.forEach(operator => operator.addEventListener('click', () => setOperation(operator.textContent)));
 window.addEventListener('keydown', (e) => handleKeyboardInput(e));
+window.addEventListener('keydown', (e) => addButtonClass(e));
+window.addEventListener('keyup', (e) => removeButtonClass(e));
 
 function resetInput() {
   currentInput.textContent = "";
@@ -109,7 +113,10 @@ function trim(string) {
 }
 
 function handleKeyboardInput(e) {
-  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") setOperation(e.key);
+  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
+    setOperation(e.key);
+    const other = document.querySelector()
+  }
   else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) appendNumber(e.key);
   else if (e.key === ".") appendDecimal();
   else if (e.key === "Enter") {
@@ -117,6 +124,21 @@ function handleKeyboardInput(e) {
     shouldClear = true;
   }
   else if (e.key === "Backspace" || e.key === "Delete") backspace();
+  else if (e.key === "Escape") clear();
 }
 
-// set active CSS effects when key is pressed
+function addButtonClass(e) {
+  const button = document.querySelector(`button[data-key="${e.keyCode}"]`);
+  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") button.classList.add('operator-active');
+  else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) button.classList.add('number-active');
+  else if (e.key === "." || e.key === "Enter") button.classList.add('other-active');
+  else if (e.key === "Backspace" || e.key === "Delete" || e.key === "Escape") button.classList.add('erase-active');
+}
+
+function removeButtonClass(e) {
+  const button = document.querySelector(`button[data-key="${e.keyCode}"]`);
+  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") button.classList.remove('operator-active');
+  else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) button.classList.remove('number-active');
+  else if (e.key === "." || e.key === "Enter") button.classList.remove('other-active');
+  else if (e.key === "Backspace" || e.key === "Delete" || e.key === "Escape") button.classList.remove('erase-active');
+}

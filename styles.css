@@ -11,7 +11,7 @@
   flex-direction: column;
   width: 25%;
   height: 70%;
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(165, 165, 165);
   border: 2px solid rgb(171, 171, 171);
   border-radius: 10px;
 }
@@ -24,7 +24,7 @@
 
 .previousOperation {
   background-color: rgb(212, 255, 251);
-  border-radius: 3px;
+  border-radius: 3px 3px 0 0;
   height: 35px;
   margin: 0 5% 0 5%;
   display: flex;
@@ -32,16 +32,9 @@
   align-items: flex-end;
 }
 
-.equation {
-  position: relative;
-  bottom: 7.5px;
-  right: 7.5px;
-  font-size: 15px;
-}
-
 .currentInput {
   background-color: rgb(212, 255, 251);
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
   height: 55px;
   margin: 0 5% 12.5px 5%;
   display: flex;
@@ -77,17 +70,25 @@ button {
   font-size: 20px;
 }
 
-.digit, .other {
-  background-color: rgb(230, 230, 230);
-  border: 2px solid rgb(213, 213, 213);
+.number, .other {
+  background-color: rgb(238, 236, 236);
+  border: 2px solid rgb(199, 199, 199);
   border-radius: 5px;
 }
 
-.digit:hover, .other:hover {
+.number:hover, .other:hover {
   background-color: rgb(241, 241, 241);
 }
 
-.digit:active, .other:active {
+.number-hover, .other-hover {
+  background-color: rgb(241, 241, 241);
+}
+
+.number:active, .other:active {
+  background-color: rgb(207, 207, 207);
+}
+
+.number-active, .other-active {
   background-color: rgb(207, 207, 207);
 }
 
@@ -106,25 +107,41 @@ button {
   background-color: rgb(83, 83, 83);
 }
 
-#wipe, #drop {
+.operator-hover {
+  background-color: rgb(137, 137, 137);
+}
+
+.operator-active {
+  background-color: rgb(83, 83, 83);
+}
+
+.erase {
   background-color: rgb(254, 182, 49);
   border: 2px solid rgb(249, 164, 6);
   border-radius: 5px;
 }
 
-#wipe:hover, #drop:hover {
+#clear:hover, #backspace:hover {
   background-color: rgb(255, 198, 92);
 }
 
-#wipe:active, #drop:active {
+#clear:active, #backspace:active {
   background-color: rgb(252, 172, 23);
 }
 
-#wipe {
+.erase-hover {
+  background-color: rgb(255, 198, 92);
+}
+
+.erase-active {
+  background-color: rgb(252, 172, 23);
+}
+
+#clear {
   grid-area: clear;
 }
 
-#drop {
+#backspace {
   grid-area: backspace;
 }
 
@@ -185,10 +202,12 @@ button {
   grid-area: zero;
 }
 
-#dot {
+#decimal {
   grid-area: decimal;
 }
 
 #equal {
   grid-area: equal;
 }
+
+/* adjust positioning of display lines
