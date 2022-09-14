@@ -85,11 +85,11 @@ button {
   border-radius: 5px;
 }
 
-.number-hover, .other-hover {
-  background-color: rgb(241, 241, 241);
+.number:hover, .other:hover {
+  background-color: rgb(245, 245, 245);
 }
 
-.number-active, .other-active {
+.number:active, .other:active, .number-active, .other-active {
   background-color: rgb(207, 207, 207);
 }
 
@@ -100,11 +100,11 @@ button {
   border-radius: 5px;
 }
 
-.operator-hover {
+.operator:hover {
   background-color: rgb(137, 137, 137);
 }
 
-.operator-active {
+.operator:active, .operator-active {
   background-color: rgb(83, 83, 83);
 }
 
@@ -114,11 +114,11 @@ button {
   border-radius: 5px;
 }
 
-.erase-hover {
+.erase:hover {
   background-color: rgb(255, 198, 92);
 }
 
-.erase-active {
+.erase:active, .erase-active {
   background-color: rgb(252, 172, 23);
 }
 
