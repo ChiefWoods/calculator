@@ -115,6 +115,7 @@ function roundAndExponent(num) {
 }
 
 function trim(string) {
+  if (string === "") string = "0";
   return parseFloat(string).toString();
 }
 
