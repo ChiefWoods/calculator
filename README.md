@@ -1,3 +1,3 @@
 # Calculator
 
-Project for The Odin Project
+Web calculator for The Odin Project

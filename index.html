@@ -2,47 +2,60 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculator</title>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
-  <script src="https://kit.fontawesome.com/02482ebbaf.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <main>
     <div class="container">
       <div class="display">
-        <div class="upperDisplay"><span class="previousOperation"></span></div>
-        <div class="lowerDisplay"><span class="currentInput">0</span></div>
+        <div class="head">
+          <span class="brand">WOODS</span>
+          <span class="model">SE-104</span>
+          <div class="solar">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="screen">
+          <span class="previous"></span>
+          <span class="current">0</span>
+        </div>
       </div>
       <div class="keys">
-        <button id="clear" class="erase" data-key="27">C</button>
-        <button id="backspace" class="erase" data-key="8">&#8592;</button>
-        <button id="slash" class="operator" data-key="111">/</button>
-        <button id="times" class="operator" data-key="106">*</button>
-        <button id="minus" class="operator" data-key="109">-</button>
-        <button id="plus" class="operator" data-key="107">+</button>
-        <button id="seven" class="number" data-key="103">7</button>
-        <button id="eight" class="number" data-key="104">8</button>
-        <button id="nine" class="number" data-key="105">9</button>
-        <button id="four" class="number" data-key="100">4</button>
-        <button id="five" class="number" data-key="101">5</button>
-        <button id="six" class="number" data-key="102">6</button>
-        <button id="one" class="number" data-key="97">1</button>
-        <button id="two" class="number" data-key="98">2</button>
-        <button id="three" class="number" data-key="99">3</button>
-        <button id="zero" class="number" data-key="96">0</button>
-        <button id="decimal" class="other" data-key="110">.</button>
-        <button id="equal" class="other" data-key="13">=</button>
+        <button class="erase" value="clear" data-code="Escape">C</button>
+        <button class="erase" value="backspace" data-code="Backspace Delete">&#8592;</button>
+        <button class="operator" value="divide" data-code="NumpadDivide">÷</button>
+        <button class="operator" value="multiply" data-code="NumpadMultiply">×</button>
+        <button class="operator" value="minus" data-code="NumpadSubtract Minus">-</button>
+        <button class="operator" value="plus" data-code="NumpadAdd">+</button>
+        <button class="operator" value="equal" data-code="NumpadEnter Equal">=</button>
+        <button class="digit" value="7" data-code="Numpad7 Digit7">7</button>
+        <button class="digit" value="8" data-code="Numpad8 Digit8">8</button>
+        <button class="digit" value="9" data-code="Numpad9 Digit9">9</button>
+        <button class="digit" value="4" data-code="Numpad4 Digit4">4</button>
+        <button class="digit" value="5" data-code="Numpad5 Digit5">5</button>
+        <button class="digit" value="6" data-code="Numpad6 Digit6">6</button>
+        <button class="digit" value="1" data-code="Numpad1 Digit1">1</button>
+        <button class="digit" value="2" data-code="Numpad2 Digit2">2</button>
+        <button class="digit" value="3" data-code="Numpad3 Digit3">3</button>
+        <button class="digit" value="0" data-code="Numpad0 Digit0">0</button>
+        <button class="digit" value="decimal" data-code="NumpadDecimal Period">.</button>
       </div>
     </div>
   </main>
 
   <footer>
-    <span id="made-by">Made by ChiefWoods</span>
-    <a id="github" href="https://github.com/ChiefWoods/calculator" target="_blank"><i
-        class="fa-brands fa-github"></i></a>
+    <span class="made-by">Made by ChiefWoods</span>
+    <a class="github-link" href="https://github.com/ChiefWoods/calculator" target="_blank"><img src="./icons/github.svg"
+        class="github-icon" alt="icon of GitHub"></a>
   </footer>
 </body>
 

@@ -1,234 +1,301 @@
-body {
-  height: 100vh;
-  width: 100vw;
+@font-face {
+  font-family: DS-Digital;
+  src: url(./fonts/DS-DIGI.TTF) format("truetype");
+}
+
+@font-face {
+  font-family: 'Courier Prime';
+  src: url(./fonts/CourierPrime-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: Eurostile;
+  src: url(./fonts/EurostileBold.ttf) format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url(./fonts/NotoSans-Regular.ttf) format("truetype");
+}
+
+:root {
+  overflow-x: hidden;
+  --container-dark: #2F2B28;
+  --container-light: #9A999F;
+  --solar-panel: #46322B;
+  --main-display: #D5E3E4;
+  --key-dark: #333333;
+  --key-light: #675F5D;
+  --key-orange: #DE7324;
+}
+
+* {
   margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
-  height: 92vh;
-  overflow-y: hidden;
+  flex: 1;
+  height: calc(100vh - 55px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-  position: absolute;
-  top: 47.5%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 310px;
-  height: 65%;
-  background-color: rgb(165, 165, 165);
-  border: 2px solid rgb(171, 171, 171);
-  border-radius: 15px;
-  padding: 35px;
-  overflow-y: hidden;
+  height: 550px;
+  width: 375px;
 }
 
 .display {
+  height: 34%;
+  background-color: var(--container-dark);
+  border-radius: 1px 1px 0px 0px;
+  border: 5px solid #5E5A57;
+  border-radius: 30px 30px 0px 0px;
+  border-bottom: none;
+}
+
+.head {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: Eurostile, monospace;
+  font-size: 25px;
+  color: white;
+  align-self: flex-start;
+  letter-spacing: 1.2px;
+}
+
+.model {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 13px;
+  color: white;
+  margin-left: auto;
+  position: relative;
+  right: 15px;
+  bottom: 3px;
+  letter-spacing: 0.5px;
+}
+
+.solar {
+  width: 150px;
+  height: 35px;
+  background-color: rgb(157, 157, 157);
+  border: 4px solid var(--solar-panel);
+  border-radius: 3px;
+  display: flex;
+  gap: 0.8px;
+}
+
+.solar > * {
+  background-color: var(--solar-panel);
+  width: 100%;
+  height: 100%;
+}
+
+.screen {
+  background-color: var(--main-display);
+  height: 90px;
+  margin: 0px 20px 20px;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  margin-bottom: 35px;
-}
-
-.upperDisplay {
-  background-color: rgb(212, 255, 251);
-  border-radius: 5px 5px 0 0;
-  border: none;
-  height: 35px;
-  display: flex;
-  justify-content: flex-end;
   align-items: flex-end;
-  font-size: 17.5px;
-}
-
-.lowerDisplay {
-  background-color: rgb(212, 255, 251);
-  border-radius: 0 0 5px 5px;
-  border: none;
-  height: 55px;
-  display: flex;
   justify-content: flex-end;
-  align-items: flex-end;
-  font-size: 35px;
 }
 
-.previousOperation {
-  position: relative;
-  bottom: 4px;
-  right: 9px;
+.previous {
+  display: block;
+  font-family: DS-Digital;
+  font-size: 27px;
+  padding-right: 8px;
 }
 
-.currentInput {
-  position: relative;
-  bottom: 5px;
-  right: 9px;
+.current {
+  display: block;
+  font-family: DS-Digital;
+  font-size: 55px;
+  padding-right: 8px;
 }
 
 .keys {
+  height: 66%;
+  background-color: var(--container-light);
+  border: 5px solid #5E5A57;
+  border-top-width: 3px;
+  border-radius: 0px 0px 30px 30px;
+  padding: 20px;
   display: grid;
-  grid-template: repeat(5, 1fr) / repeat(4, 1fr);
-  grid-template-areas:
-    ". clear backspace slash"
-    "seven eight nine times"
+  grid-template-areas: 
+    ". clear backspace divide"
+    "seven eight nine multiply"
     "four five six minus"
     "one two three plus"
     "zero decimal equal plus";
-  height: auto;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 12px;
 }
 
 button {
-  max-width: 100%;
-  height: 45px;
-  font-size: 20px;
-}
-
-.number,
-.other {
-  background-color: rgb(238, 236, 236);
-  border: 2px solid rgb(199, 199, 199);
-  border-radius: 5px;
-}
-
-.number:hover,
-.other:hover {
-  background-color: rgb(245, 245, 245);
-}
-
-.number:active,
-.other:active,
-.number-active,
-.other-active {
-  background-color: rgb(207, 207, 207);
-}
-
-.operator {
-  background-color: rgb(106, 106, 106);
-  color: whitesmoke;
-  border: 2px solid rgb(88, 88, 88);
-  border-radius: 5px;
-}
-
-.operator:hover {
-  background-color: rgb(137, 137, 137);
-}
-
-.operator:active,
-.operator-active {
-  background-color: rgb(83, 83, 83);
+  font-family: 'Courier Prime', monospace;
+  font-size: 30px;
+  border-radius: 7px;
+  color: white;
+  cursor: pointer;
 }
 
 .erase {
-  background-color: rgb(254, 182, 49);
-  border: 2px solid rgb(249, 164, 6);
-  border-radius: 5px;
+  background-color: var(--key-orange);
+  border: 3px solid #bf6321;
 }
 
-.erase:hover {
-  background-color: rgb(255, 198, 92);
+.erase:hover, .erase:focus {
+  background-color: #de8545;
+  outline: none;
 }
 
-.erase:active,
-.erase-active {
-  background-color: rgb(252, 172, 23);
+.erase:active, .erase.active {
+  background-color: #bf6321;
+  border: 3px solid #a1531c;
 }
+
+.operator {
+  background-color: var(--key-light);
+  border: 3px solid #534e4c;
+}
+
+.operator:hover, .operator:focus {
+  background-color: #827976;
+  outline: none;
+}
+
+.operator:active, .operator.active {
+  background-color: #534e4c;
+  border: 3px solid #45413f;
+}
+
+.digit {
+  background-color: var(--key-dark);
+  border: 3px solid #232323;
+}
+
+.digit:hover, .digit:focus {
+  background-color: #575757;
+  outline: none; 
+}
+
+.digit:active, .digit.active {
+  background-color: #232323;
+  border: 3px solid #0f0f0f;
+}
+
+button[value="clear"] {
+  grid-area: clear;
+}
+
+button[value="backspace"] {
+  grid-area: backspace;
+}
+
+button[value="divide"] {
+  grid-area: divide;
+}
+
+button[value="7"] {
+  grid-area: seven;
+}
+
+button[value="8"] {
+  grid-area: eight;
+}
+
+button[value="9"] {
+  grid-area: nine;
+}
+
+button[value="multiply"] {
+  grid-area: multiply;
+}
+
+button[value="4"] {
+  grid-area: four;
+}
+
+button[value="5"] {
+  grid-area: five;
+}
+
+button[value="6"] {
+  grid-area: six;
+}
+
+button[value="minus"] {
+  grid-area: minus;
+}
+
+button[value="1"] {
+  grid-area: one;
+}
+
+button[value="2"] {
+  grid-area: two;
+}
+
+button[value="3"] {
+  grid-area: three;
+}
+
+button[value="plus"] {
+  grid-area: plus;
+}
+
+button[value="0"] {
+  grid-area: zero;
+}
+
+button[value="decimal"] {
+  grid-area: decimal;
+}
+
+button[value="equal"] {
+  grid-area: equal;
+}
+
+/* Footer */
 
 footer {
-  height: 8vh;
+  height: 55px;
+  width: 100vw;
   display: flex;
   align-items: center;
   background-color: #0D1117;
 }
 
-#made-by {
+.made-by {
   color: white;
   font-size: 15px;
   font-family: cursive;
   margin: 0 auto;
 }
 
-#github {
-  margin-right: 17.5px;
+.github-link {
+  position: relative;
+  right: 37.5px;
 }
 
-.fa-github {
-  font-size: 27.5px;
-  color: white;
-}
-
-#clear {
-  grid-area: clear;
-}
-
-#backspace {
-  grid-area: backspace;
-}
-
-#slash {
-  grid-area: slash;
-}
-
-#times {
-  grid-area: times;
-}
-
-#minus {
-  grid-area: minus;
-}
-
-#plus {
-  grid-area: plus;
-  height: auto;
-}
-
-#seven {
-  grid-area: seven;
-}
-
-#eight {
-  grid-area: eight;
-}
-
-#nine {
-  grid-area: nine;
-}
-
-#four {
-  grid-area: four;
-}
-
-#five {
-  grid-area: five;
-}
-
-#six {
-  grid-area: six;
-}
-
-#one {
-  grid-area: one;
-}
-
-#two {
-  grid-area: two;
-}
-
-#three {
-  grid-area: three;
-}
-
-#zero {
-  grid-area: zero;
-}
-
-#decimal {
-  grid-area: decimal;
-}
-
-#equal {
-  grid-area: equal;
+.github-icon {
+  height: 27.5px;
 }
