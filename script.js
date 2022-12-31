@@ -76,14 +76,10 @@ function clear() {
 
 function backspace() {
   if (shouldClear) {
-    previous.textContent = "";
-    operand1 = "";
-    operand2 = "";
-    mode = "";
-    shouldClear = false;
+    clear();
   }
   if (shouldReset) {
-    shouldReset = false;
+    reset();
   }
   current.textContent = current.textContent.slice(0, -1);
   if (current.textContent == "") {
@@ -115,10 +111,9 @@ function appendDecimal() {
   if (shouldReset) {
     reset();
   }
-  if (current.textContent.includes(".")) {
-    return;
+  if (!current.textContent.includes(".")) {
+    current.textContent += ".";
   }
-  current.textContent += ".";
 }
 
 function operate(num1, num2, operator) {
@@ -182,7 +177,6 @@ function evaluate() {
     current.textContent = "AND BEYOND!";
     shouldClear = true;
   } else {
-    console.log("check");
     previous.textContent = `${operand1} ${mode} ${operand2} = `;
     current.textContent = roundAndExponent(operate(operand1, operand2, mode));
     mode = "";
@@ -191,7 +185,11 @@ function evaluate() {
 
 function roundAndExponent(num) {
   if (num.toString().length > 9) {
-    return num.toExponential(4);
+    if (/e\+0/.test(num.toExponential(4))) {
+      return num.toExponential(4).slice(0, -3);
+    } else {
+      return num.toExponential(4);
+    }
   } else {
     return num;
   }
