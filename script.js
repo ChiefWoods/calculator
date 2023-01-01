@@ -1,4 +1,4 @@
-var mode = operand1 = operand2 = "", shouldReset = shouldClear = false, num;
+var mode = operand1 = operand2 = "", shouldReset = shouldClear = isNegative = false, num;
 
 const previous = document.querySelector('.previous');
 const current = document.querySelector('.current');
@@ -7,6 +7,9 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
   button.addEventListener('click', e => {
     switch (e.target.className) {
+      case 'negative':
+        setNegative();
+        break;
       case 'erase':
         switch (e.target.value) {
           case 'clear':
@@ -18,7 +21,7 @@ buttons.forEach(button => {
         }
         break;
       case 'operator':
-        if (e.target.value == "equal" && mode != "") {
+        if (e.target.value == "equals" && mode != "") {
           evaluate();
         } else {
           setDisplay(e.target.value);
@@ -28,7 +31,7 @@ buttons.forEach(button => {
         if (e.target.value == 'decimal') {
           appendDecimal();
         } else {
-          appendNumber(e.target.value);
+          appendNumber(e.target.textContent);
         }
         break;
     }
@@ -37,31 +40,37 @@ buttons.forEach(button => {
 
 window.addEventListener('keydown', e => {
   const button = document.querySelector(`button[data-code*="${e.code}"]`);
-  button.classList.add("active");
-  if (e.code == "Escape" || e.code == "KeyC") {
-    clear();
-  } else if (e.code == "Backspace" || e.code == "Delete") {
-    backspace();
-  } else if (e.code == "NumpadAdd") {
-    setDisplay("plus");
-  } else if (e.code == "NumpadSubtract" || e.code == "Minus") {
-    setDisplay("minus");
-  } else if (e.code == "NumpadMultiply") {
-    setDisplay("multiply");
-  } else if (e.code == "NumpadDivide") {
-    setDisplay("divide");
-  } else if (e.code == "NumpadEnter" || e.code == "Equal" && mode != "") {
-    evaluate();
-  } else if (e.code == "NumpadDecimal" || e.code == "Period") {
-    appendDecimal();
-  } else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) {
-    appendNumber(e.key);
+  if (button != null) {
+    button.classList.add("active");
+    if (e.code == "KeyN") {
+      setNegative();
+    } else if (e.code == "Escape" || e.code == "KeyC") {
+      clear();
+    } else if (e.code == "Backspace" || e.code == "Delete") {
+      backspace();
+    } else if (e.code == "NumpadAdd") {
+      setDisplay("plus");
+    } else if (e.code == "NumpadSubtract" || e.code == "Minus") {
+      setDisplay("minus");
+    } else if (e.code == "NumpadMultiply") {
+      setDisplay("multiply");
+    } else if (e.code == "NumpadDivide") {
+      setDisplay("divide");
+    } else if (e.code == "NumpadEnter" || e.code == "Equal" && mode != "") {
+      evaluate();
+    } else if (e.code == "NumpadDecimal" || e.code == "Period") {
+      appendDecimal();
+    } else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) {
+      appendNumber(e.key);
+    }
   }
 })
 
 window.addEventListener('keyup', e => {
   const button = document.querySelector(`button[data-code*="${e.code}"]`);
-  button.classList.remove("active");
+  if (button != null) {
+    button.classList.remove("active");
+  }
 });
 
 function reset() {
@@ -120,6 +129,24 @@ function appendDecimal() {
   }
 }
 
+function setNegative() {
+  if (shouldClear) {
+    clear();
+  }
+  if (shouldReset) {
+    reset();
+  }
+  if (current.textContent != "0") {
+    if (!isNegative) {
+      isNegative = true;
+      current.textContent = "-" + current.textContent;
+    } else {
+      isNegative = false;
+      current.textContent = current.textContent.slice(1);
+    }
+  }
+}
+
 function operate(num1, num2, operator) {
   num = 0;
   num1 = Number(num1);
@@ -143,10 +170,10 @@ function operate(num1, num2, operator) {
 
 function setOperation(arithmetic) {
   switch (arithmetic) {
-    case "plus":
+    case "add":
       mode = "+";
       break;
-    case "minus":
+    case "subtract":
       mode = "-";
       break;
     case "multiply":
@@ -181,6 +208,7 @@ function setDisplay(operation) {
       shouldReset = true;
       operand1 = trim(current.textContent);
     }
+    isNegative = false;
     setOperation(operation);
     previous.textContent = `${operand1} ${mode}`;
   }
@@ -199,6 +227,7 @@ function evaluate() {
         return;
       }
     }
+    isNegative = false;
     previous.textContent = `${operand1} ${mode} ${operand2} = `;
     current.textContent = operate(operand1, operand2, mode);
   }

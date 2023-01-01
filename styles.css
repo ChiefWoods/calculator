@@ -28,6 +28,7 @@
   --key-dark: #333333;
   --key-light: #675F5D;
   --key-orange: #DE7324;
+  --key-magenta: #995267;
 }
 
 * {
@@ -141,13 +142,15 @@ main {
   padding: 20px;
   display: grid;
   grid-template-areas: 
-    ". clear backspace divide"
+    "negative clear backspace divide"
     "seven eight nine multiply"
-    "four five six minus"
-    "one two three plus"
-    "zero decimal equal plus";
+    "four five six subtract"
+    "one two three add"
+    "zero decimal equals add";
   gap: 12px;
 }
+
+/* Buttons */
 
 button {
   font-family: 'Courier Prime', monospace;
@@ -155,6 +158,21 @@ button {
   border-radius: 7px;
   color: white;
   cursor: pointer;
+}
+
+.negative {
+  background-color: var(--key-magenta);
+  border: 3px solid #85485a;
+}
+
+.negative:hover, .negative:focus {
+  background-color: #a6697c;
+  outline: none;
+}
+
+.negative:active, .negative.active {
+  background-color: #85485a;
+  border: 3px solid #6d3b4a;
 }
 
 .erase {
@@ -202,6 +220,10 @@ button {
   border: 3px solid #0f0f0f;
 }
 
+button[value="negative"] {
+  grid-area: negative;
+}
+
 button[value="clear"] {
   grid-area: clear;
 }
@@ -214,15 +236,15 @@ button[value="divide"] {
   grid-area: divide;
 }
 
-button[value="7"] {
+button[value="seven"] {
   grid-area: seven;
 }
 
-button[value="8"] {
+button[value="eight"] {
   grid-area: eight;
 }
 
-button[value="9"] {
+button[value="nine"] {
   grid-area: nine;
 }
 
@@ -230,39 +252,39 @@ button[value="multiply"] {
   grid-area: multiply;
 }
 
-button[value="4"] {
+button[value="four"] {
   grid-area: four;
 }
 
-button[value="5"] {
+button[value="five"] {
   grid-area: five;
 }
 
-button[value="6"] {
+button[value="six"] {
   grid-area: six;
 }
 
-button[value="minus"] {
-  grid-area: minus;
+button[value="subtract"] {
+  grid-area: subtract;
 }
 
-button[value="1"] {
+button[value="one"] {
   grid-area: one;
 }
 
-button[value="2"] {
+button[value="two"] {
   grid-area: two;
 }
 
-button[value="3"] {
+button[value="three"] {
   grid-area: three;
 }
 
-button[value="plus"] {
-  grid-area: plus;
+button[value="add"] {
+  grid-area: add;
 }
 
-button[value="0"] {
+button[value="zero"] {
   grid-area: zero;
 }
 
@@ -270,8 +292,8 @@ button[value="decimal"] {
   grid-area: decimal;
 }
 
-button[value="equal"] {
-  grid-area: equal;
+button[value="equals"] {
+  grid-area: equals;
 }
 
 /* Footer */
