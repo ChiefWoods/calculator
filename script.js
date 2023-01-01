@@ -1,4 +1,4 @@
-var mode = operand1 = operand2 = "", shouldReset = shouldClear = false;
+var mode = operand1 = operand2 = "", shouldReset = shouldClear = false, num;
 
 const previous = document.querySelector('.previous');
 const current = document.querySelector('.current');
@@ -18,7 +18,11 @@ buttons.forEach(button => {
         }
         break;
       case 'operator':
-        setOperation(e.target.value);
+        if (e.target.value == "equal" && mode != "") {
+          evaluate();
+        } else {
+          setDisplay(e.target.value);
+        }
         break;
       case 'digit':
         if (e.target.value == 'decimal') {
@@ -34,20 +38,20 @@ buttons.forEach(button => {
 window.addEventListener('keydown', e => {
   const button = document.querySelector(`button[data-code*="${e.code}"]`);
   button.classList.add("active");
-  if (e.code == "Escape") {
+  if (e.code == "Escape" || e.code == "KeyC") {
     clear();
   } else if (e.code == "Backspace" || e.code == "Delete") {
     backspace();
   } else if (e.code == "NumpadAdd") {
-    setOperation("plus");
+    setDisplay("plus");
   } else if (e.code == "NumpadSubtract" || e.code == "Minus") {
-    setOperation("minus");
+    setDisplay("minus");
   } else if (e.code == "NumpadMultiply") {
-    setOperation("multiply");
+    setDisplay("multiply");
   } else if (e.code == "NumpadDivide") {
-    setOperation("divide");
-  } else if (e.code == "NumpadEnter" || e.code == "Equal") {
-    setOperation("equal");
+    setDisplay("divide");
+  } else if (e.code == "NumpadEnter" || e.code == "Equal" && mode != "") {
+    evaluate();
   } else if (e.code == "NumpadDecimal" || e.code == "Period") {
     appendDecimal();
   } else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) {
@@ -117,28 +121,28 @@ function appendDecimal() {
 }
 
 function operate(num1, num2, operator) {
+  num = 0;
   num1 = Number(num1);
   num2 = Number(num2);
   switch (operator) {
     case "+":
-      return num1 + num2;
+      num = num1 + num2;
+      break;
     case "-":
-      return num1 - num2;
+      num = num1 - num2;
+      break;
     case "×":
-      return num1 * num2;
+      num = num1 * num2;
+      break;
     case "÷":
-      return num1 / num2;
+      num = num1 / num2;
+      break;
   }
+  return roundAndExponent(num);
 }
 
-function setOperation(operation) {
-  if (shouldClear) {
-    shouldClear = false;
-  }
-  if (mode != "" && !shouldReset) {
-    evaluate();
-  }
-  switch (operation) {
+function setOperation(arithmetic) {
+  switch (arithmetic) {
     case "plus":
       mode = "+";
       break;
@@ -151,35 +155,52 @@ function setOperation(operation) {
     case "divide":
       mode = "÷";
       break;
-    case 'equal':
-      evaluate();
-      shouldClear = true;
-      return;
   }
-  if (shouldReset) {
+}
+
+function setDisplay(operation) {
+  if (current.textContent != "AND BEYOND!") {
+    if (mode != "" && shouldReset) { // select operation after clicking another one
+    } else if (mode != "" && shouldClear) { // start an operation using evaluated result
+      shouldClear = false;
+      shouldReset = true;
+      operand1 = trim(current.textContent);
+    } else if (mode != "" && !shouldClear) { // append new operation
+      operand2 = trim(current.textContent);
+      if (mode == "÷" && operand2 == "0") {
+        shouldClear = true;
+        previous.textContent = "TO INFINITY";
+        current.textContent = "AND BEYOND!";
+        return;
+      } else {
+        shouldReset = true;
+        current.textContent = operate(operand1, operand2, mode);
+        operand1 = trim(current.textContent);
+      }
+    } else if (mode == "") { // first operation
+      shouldReset = true;
+      operand1 = trim(current.textContent);
+    }
+    setOperation(operation);
     previous.textContent = `${operand1} ${mode}`;
-    return;
-  }
-  if (!shouldClear) {
-    operand1 = trim(current.textContent);
-    previous.textContent = `${operand1} ${mode}`;
-    shouldReset = true;
   }
 }
 
 function evaluate() {
-  if (mode == "" || shouldClear) {
-    return;
-  }
-  operand2 = trim(current.textContent);
-  if (mode == "÷" && operand2 == "0") {
-    previous.textContent = "TO INFINITY";
-    current.textContent = "AND BEYOND!";
-    shouldClear = true;
-  } else {
+  if (current.textContent != "AND BEYOND!") {
+    if (shouldClear) { // repeated evaluation
+      operand1 = trim(current.textContent);
+    } else {
+      operand2 = trim(current.textContent);
+      shouldClear = true;
+      if (mode == "÷" && operand2 == "0") { // dividing by zero
+        previous.textContent = "TO INFINITY";
+        current.textContent = "AND BEYOND!";
+        return;
+      }
+    }
     previous.textContent = `${operand1} ${mode} ${operand2} = `;
-    current.textContent = roundAndExponent(operate(operand1, operand2, mode));
-    mode = "";
+    current.textContent = operate(operand1, operand2, mode);
   }
 }
 
