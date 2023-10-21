@@ -19,15 +19,7 @@
   src: url(./fonts/Courier_Prime/CourierPrime-Regular.ttf) format('truetype');
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-  --github-black: #0D1117;
+:root {
   --container-dark: #2F2B28;
   --container-light: #9A999F;
   --solar-panel: #46322B;
@@ -38,15 +30,7 @@ html {
   --key-magenta: #995267;
 }
 
-body {
-  display: inline-flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-width: calc(100vw - (100vw - 100%));
-}
-
 main {
-  /* flex: 1; */
   display: flex;
   flex-direction: column;
   margin: auto auto;
@@ -303,24 +287,4 @@ button[value='decimal'] {
 
 button[value='equal'] {
   grid-area: equal;
-}
-
-/* Footer */
-
-footer {
-  display: flex;
-  align-items: center;
-  background-color: var(--github-black);
-  padding: 12px 40px;
-}
-
-.made-by {
-  font-size: 12px;
-  font-family: cursive;
-  color: white;
-  margin: 0 auto;
-}
-
-.github-icon {
-  height: 25px;
 }
