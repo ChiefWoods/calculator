@@ -2,7 +2,7 @@
 
 ![Landing Screenshot](images/landing_screenshot.png)
 
-Web calculator for [The Odin Project](https://www.theodinproject.com/) and [freeCodeCamp](https://www.freecodecamp.org/learn/).
+Web calculator for [The Odin Project](https://www.theodinproject.com/).
 
 [Live Website](https://chiefwoods.github.io/calculator/)  
 
@@ -14,6 +14,7 @@ Web calculator for [The Odin Project](https://www.theodinproject.com/) and [free
 - Toggle between positive and negative numbers
 - Backspace available
 - Chainable operations
+- Truncated results
 - Keyboard and numpad support
 
 ## Built With
