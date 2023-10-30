@@ -2,7 +2,7 @@
 
 ![Landing Screenshot](images/landing_screenshot.png)
 
-Web calculator for [The Odin Project](https://www.theodinproject.com/).
+Web calculator for [The Odin Project](https://www.theodinproject.com/) and [freeCodeCamp](https://www.freecodecamp.org/learn/).
 
 [Live Website](https://chiefwoods.github.io/calculator/)  
 
@@ -12,7 +12,9 @@ Web calculator for [The Odin Project](https://www.theodinproject.com/).
 
 - Perform basic arithmetic operations
 - Toggle between positive and negative numbers
-- Supports backspacing
+- Backspace available
+- Chainable operations
+- Keyboard and numpad support
 
 ## Built With
 

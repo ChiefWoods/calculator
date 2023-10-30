@@ -20,6 +20,7 @@
 }
 
 :root {
+  --outer-border-radius: 30px;
   --display-dark: #2F2B28;
   --display-light: #9A999F;
   --solar-panel: #46322B;
@@ -45,10 +46,10 @@ main {
   padding-inline: 30px;
 }
 
-.display {
+.face {
   background-color: var(--display-dark);
-  border: 4px solid none;
-  border-radius: 30px 30px 0px 0px;
+  border: 4px solid var(--key-grey);
+  border-radius: var(--outer-border-radius) var(--outer-border-radius) 0px 0px;
   border-bottom: none;
   padding: 20px;
   display: flex;
@@ -56,31 +57,31 @@ main {
   gap: 10px;
 }
 
-/* Head */
-
-.head {
+.face>div:nth-child(1) {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  /* align-items: center; */
+  /* gap: 15px; */
+  justify-content: space-between;
+  padding-inline: 4px;
 }
 
 .brand {
   font-family: Eurostile, monospace;
   font-size: 2.5rem;
   color: white;
-  align-self: flex-start;
+  /* align-self: flex-start; */
   letter-spacing: 1.2px;
-  margin-left: 4px;
+  /* margin-left: 4px; */
 }
 
 .model {
   font-family: 'Noto Sans', sans-serif;
   font-size: 1.3rem;
   color: white;
-  margin-left: auto;
+  /* margin-left: auto; */
   letter-spacing: 0.05rem;
-  align-self: flex-start;
-  width: max-content;
+  /* align-self: flex-start; */
+  /* width: max-content; */
 }
 
 .solar {
@@ -90,11 +91,12 @@ main {
   border: 4px solid var(--solar-panel);
   border-radius: 3px;
   display: flex;
-  gap: 0.8px;
-  margin-right: 4px;
+  gap: 0.9px;
+  /* margin-right: 4px; */
+  /* align-self: flex-end; */
 }
 
-.solar > * {
+.solar>* {
   background-color: var(--solar-panel);
   width: 100%;
   height: 100%;
@@ -104,22 +106,24 @@ main {
 
 .screen {
   background-color: var(--screen-light);
-  height: 90px;
+  height: 95px;
+  width: 310px;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 8px 8px 0 0;
+  padding-inline: 5px;
 }
 
-.previous {
+.input {
   display: block;
   font-family: DS-Digital;
   font-size: 2.7rem;
+  white-space: nowrap;
 }
 
-.current {
+.output {
   display: block;
   font-family: DS-Digital;
   font-size: 5.5rem;
@@ -128,15 +132,11 @@ main {
 .keypad {
   background-color: var(--display-light);
   border: 4px solid var(--key-grey);
-  border-radius: 0px 0px 30px 30px;
+  border-radius: 0px 0px var(--outer-border-radius) var(--outer-border-radius);
   padding: 20px;
   display: grid;
-  grid-template-areas:
-    'negative clear backspace divide'
-    'seven eight nine multiply'
-    'four five six subtract'
-    'one two three add'
-    'zero decimal equal add';
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 50px);
   gap: 12px;
 }
 
@@ -148,8 +148,6 @@ button {
   border-radius: 7px;
   color: white;
   cursor: pointer;
-  width: 100%;
-  height: 50px;
 }
 
 .negative {
@@ -224,79 +222,12 @@ button {
   border-color: var(--key-black-dark);
 }
 
-button[value='negative'] {
-  grid-area: negative;
+#add {
+  grid-area: 4 / 4 / 6 / 5;
 }
 
-button[value='clear'] {
-  grid-area: clear;
-}
+/* Footer */
 
-button[value='backspace'] {
-  grid-area: backspace;
-}
-
-button[value='divide'] {
-  grid-area: divide;
-}
-
-button[value='seven'] {
-  grid-area: seven;
-}
-
-button[value='eight'] {
-  grid-area: eight;
-}
-
-button[value='nine'] {
-  grid-area: nine;
-}
-
-button[value='multiply'] {
-  grid-area: multiply;
-}
-
-button[value='four'] {
-  grid-area: four;
-}
-
-button[value='five'] {
-  grid-area: five;
-}
-
-button[value='six'] {
-  grid-area: six;
-}
-
-button[value='subtract'] {
-  grid-area: subtract;
-}
-
-button[value='one'] {
-  grid-area: one;
-}
-
-button[value='two'] {
-  grid-area: two;
-}
-
-button[value='three'] {
-  grid-area: three;
-}
-
-button[value='add'] {
-  grid-area: add;
-  height: auto;
-}
-
-button[value='zero'] {
-  grid-area: zero;
-}
-
-button[value='decimal'] {
-  grid-area: decimal;
-}
-
-button[value='equal'] {
-  grid-area: equal;
+footer {
+  margin-top: 0;
 }

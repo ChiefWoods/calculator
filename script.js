@@ -1,65 +1,89 @@
+const input = document.querySelector('.input');
+const output = document.querySelector('.output');
+const negative = document.querySelector('#negative');
+const clear = document.querySelector('#clear');
+const backspace = document.querySelector('#backspace');
+const operators = document.querySelectorAll('.operator');
+const digits = document.querySelectorAll('.digit');
+
 let mode = '';
 let operand1 = '';
 let operand2 = '';
 let shouldReset = false;
 let shouldClear = false;
-let isNegative = false;
-let num = null;
 
-const previous = document.querySelector('.previous');
-const current = document.querySelector('.current');
-const buttons = document.querySelectorAll('button');
-
-function clear() {
-  previous.textContent = '';
-  current.textContent = '0';
+function clearScreen() {
+  input.textContent = '';
+  output.textContent = '0';
   operand1 = '';
   operand2 = '';
   mode = '';
   shouldClear = false;
 }
 
-function reset() {
-  current.textContent = '0';
+function resetOutput() {
+  output.textContent = '0';
   shouldReset = false;
 }
 
-function setNegative() {
-  if (shouldClear) {
-    clear();
+function backspaceOutput() {
+  shouldClear
+    ? clearScreen()
+    : shouldReset
+      ? resetOutput()
+      : null;
+  output.textContent.length === 1
+    ? output.textContent = '0'
+    : output.textContent = output.textContent.slice(0, -1);
+}
+
+function appendNumber(number) {
+  shouldClear
+    ? clearScreen()
+    : shouldReset
+      ? resetOutput()
+      : null;
+  if (output.textContent.length > 9) {
+    return alert('Maximum digit limit reached!');
   }
-  if (shouldReset) {
-    reset();
-  }
-  if (current.textContent !== '0') {
-    if (!isNegative) {
-      isNegative = true;
-      current.textContent = '-' + current.textContent;
-    } else {
-      isNegative = false;
-      current.textContent = current.textContent.slice(1);
-    }
+  output.textContent === '0'
+    ? output.textContent = number
+    : output.textContent += number;
+}
+
+function appendDecimal() {
+  shouldClear
+    ? clearScreen()
+    : shouldReset
+      ? resetOutput()
+      : null;
+  if (!output.textContent.includes('.')) {
+    output.textContent += '.';
   }
 }
 
-function backspace() {
-  if (shouldClear) {
-    clear();
+function toggleNegative() {
+  if (output.textContent === 'AND BEYOND!') {
+    clearScreen();
+  } else if (shouldClear) {
+    input.textContent = '';
+    operand1 = '';
+    operand2 = '';
+    mode = '';
+    shouldClear = false;
   }
-  if (shouldReset) {
-    reset();
-  }
-  current.textContent = current.textContent.slice(0, -1);
-  if (current.textContent === '') {
-    current.textContent = '0';
-  }
+  if (output.textContent === '0') return;
+  output.textContent.startsWith('-')
+    ? output.textContent = output.textContent.slice(1)
+    : output.textContent = '-' + output.textContent;
 }
 
-function trim(string) {
-  if (string === '') {
-    string = '0';
+function trimOutput() {
+  let num = output.textContent;
+  if (num === '') {
+    num = '0';
   }
-  return parseFloat(string).toString();
+  return parseFloat(num).toString();
 }
 
 function roundAndExponent(num) {
@@ -75,181 +99,127 @@ function roundAndExponent(num) {
 }
 
 function operate(num1, num2, operator) {
-  num = 0;
   num1 = Number(num1);
   num2 = Number(num2);
-  switch (operator) {
-    case '+':
-      num = num1 + num2;
-      break;
-    case '-':
-      num = num1 - num2;
-      break;
-    case '×':
-      num = num1 * num2;
-      break;
-    case '÷':
-      num = num1 / num2;
-  }
+  let num = operator === '+'
+    ? num1 + num2
+    : operator === '-'
+      ? num1 - num2
+      : operator === '×'
+        ? num1 * num2
+        : operator === '÷'
+          ? num1 / num2
+          : null;
   return roundAndExponent(num);
 }
 
-function evaluate() {
-  if (current.textContent !== 'AND BEYOND!') {
-    if (shouldClear) { // repeated evaluation
-      operand1 = trim(current.textContent);
-    } else {
-      operand2 = trim(current.textContent);
-      shouldClear = true;
-      if (mode === '÷' && operand2 === '0') { // dividing by zero
-        previous.textContent = 'TO INFINITY';
-        current.textContent = 'AND BEYOND!';
-        return;
-      }
-    }
-    isNegative = false;
-    previous.textContent = `${operand1} ${mode} ${operand2} = `;
-    current.textContent = operate(operand1, operand2, mode);
-  }
+function setMode(operator) {
+  mode = operator === '*'
+    ? '×'
+    : operator === '/'
+      ? '÷'
+      : operator === 'Enter'
+        ? '='
+        : operator;
 }
 
-function setOperation(arithmetic) {
-  switch (arithmetic) {
-    case 'add':
-      mode = '+';
-      break;
-    case 'subtract':
-      mode = '-';
-      break;
-    case 'multiply':
-      mode = '×';
-      break;
-    case 'divide':
-      mode = '÷';
+function evaluate() {
+  if (output.textContent === 'AND BEYOND!') return;
+  if (mode === '=') { // repeated evaluation without operating
+    mode = '';
+    operand1 = trimOutput();
+    shouldReset = true;
+  } else if (shouldClear) { // repeated evaluation
+    operand1 = trimOutput();
+  } else {
+    operand2 = trimOutput();
+    shouldClear = true;
+    if (mode === '÷' && operand2 === '0') { // dividing by zero
+      input.textContent = 'TO INFINITY';
+      output.textContent = 'AND BEYOND!';
+      return;
+    }
   }
+  input.textContent = `${operand1} ${mode} ${operand2} = `;
+  output.textContent = operate(operand1, operand2, mode);
 }
 
 function setDisplay(operation) {
-  if (current.textContent !== 'AND BEYOND!') {
-    if (mode !== '' && shouldReset) { // select operation after clicking another one
-    } else if (mode !== '' && shouldClear) { // start an operation using evaluated result
-      shouldClear = false;
+  if (output.textContent === 'AND BEYOND!') return;
+  if (mode !== '' && shouldReset) { // select operation after clicking another one
+    operand1 = trimOutput();
+  } else if (mode !== '' && shouldClear) { // start an operation using evaluated result
+    shouldClear = false;
+    shouldReset = true;
+    operand1 = trimOutput();
+  } else if (mode !== '' && !shouldClear) { // append new operation
+    operand2 = trimOutput();
+    if (mode === '÷' && operand2 === '0') { // dividing by zero
+      shouldClear = true;
+      input.textContent = 'TO INFINITY';
+      output.textContent = 'AND BEYOND!';
+      return;
+    } else {
       shouldReset = true;
-      operand1 = trim(current.textContent);
-    } else if (mode !== '' && !shouldClear) { // append new operation
-      operand2 = trim(current.textContent);
-      if (mode === '÷' && operand2 === '0') {
-        shouldClear = true;
-        previous.textContent = 'TO INFINITY';
-        current.textContent = 'AND BEYOND!';
-        return;
-      } else {
-        shouldReset = true;
-        current.textContent = operate(operand1, operand2, mode);
-        operand1 = trim(current.textContent);
-      }
-    } else if (mode === '') { // first operation
-      shouldReset = true;
-      operand1 = trim(current.textContent);
+      output.textContent = operate(operand1, operand2, mode);
+      operand1 = trimOutput();
     }
-    isNegative = false;
-    setOperation(operation);
-    previous.textContent = `${operand1} ${mode}`;
+  } else if (mode === '') { // first operation
+    shouldReset = true;
+    operand1 = trimOutput();
   }
+  setMode(operation);
+  input.textContent = `${operand1} ${mode}`;
 }
 
-function appendDecimal() {
-  if (shouldClear) {
-    clear();
-  }
-  if (shouldReset) {
-    reset();
-  }
-  if (!current.textContent.includes('.')) {
-    current.textContent += '.';
-  }
-}
+negative.addEventListener('click', toggleNegative);
+clear.addEventListener('click', clearScreen);
+backspace.addEventListener('click', backspaceOutput);
 
-function appendNumber(number) {
-  if (shouldClear) {
-    clear();
-  }
-  if (shouldReset) {
-    reset();
-  }
-  if (current.textContent.length > 9) {
-    return alert('Maximum digit limit reached!');
-  }
-  if (current.textContent === '0') {
-    current.textContent = number;
-  } else {
-    current.textContent += number;
-  }
-}
+operators.forEach(operator => {
+  operator.addEventListener('click', e => {
+    e.target.id === 'equal' && mode !== ''
+      ? evaluate()
+      : setDisplay(e.target.dataset.key);
+  })
+})
 
-buttons.forEach(button => {
-  button.addEventListener('click', e => {
-    switch (e.target.className) {
-      case 'negative':
-        setNegative();
-        break;
-      case 'erase':
-        switch (e.target.value) {
-          case 'clear':
-            clear();
-            break;
-          case 'backspace':
-            backspace();
-        }
-        break;
-      case 'operator':
-        if (e.target.value === 'equals' && mode !== '') {
-          evaluate();
-        } else {
-          setDisplay(e.target.value);
-        }
-        break;
-      case 'digit':
-        if (e.target.value === 'decimal') {
-          appendDecimal();
-        } else {
-          appendNumber(e.target.textContent);
-        }
-    }
+digits.forEach(digit => {
+  digit.addEventListener('click', e => {
+    e.target.id !== 'decimal'
+      ? appendNumber(e.target.textContent)
+      : appendDecimal();
   })
 })
 
 window.addEventListener('keydown', e => {
-  const button = document.querySelector(`button[data-code*='${e.code}']`);
-  if (button !== null) {
+  console.log(e.key)
+  console.log(['Backspace', 'Delete'].includes(e.key))
+  const button = document.querySelector(`[data-key='${e.key}']`);
+  console.log(button)
+  if (button) {
     button.classList.add('active');
-    if (e.code === 'KeyN') {
-      setNegative();
-    } else if (e.code === 'Escape' || e.code === 'KeyC') {
-      clear();
-    } else if (e.code === 'Backspace' || e.code === 'Delete') {
-      backspace();
-    } else if (e.code === 'NumpadAdd') {
-      setDisplay('plus');
-    } else if (e.code === 'NumpadSubtract' || e.code === 'Minus') {
-      setDisplay('minus');
-    } else if (e.code === 'NumpadMultiply') {
-      setDisplay('multiply');
-    } else if (e.code === 'NumpadDivide') {
-      setDisplay('divide');
-    } else if (e.code === 'NumpadEnter' || e.code === 'Equal' && mode != '') {
-      evaluate();
-    } else if (e.code === 'NumpadDecimal' || e.code === 'Period') {
-      appendDecimal();
-    } else if (parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9) {
-      appendNumber(e.key);
-    }
+    e.key === 'n'
+      ? toggleNegative()
+      : e.key === 'Escape'
+        ? clearScreen()
+        : e.key === 'Backspace'
+          ? backspaceOutput()
+          : ['+', '-', '*', '/'].includes(e.key)
+            ? setDisplay(e.key)
+            : parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9
+              ? appendNumber(e.key)
+              : e.key === '.'
+                ? appendDecimal()
+                : e.key === 'Enter' && mode != ''
+                  ? evaluate()
+                  : null;
   }
 })
 
 window.addEventListener('keyup', e => {
-  const button = document.querySelector(`button[data-code*='${e.code}']`);
-  if (button !== null) {
+  const button = document.querySelector(`[data-key='${e.key}']`);
+  if (button) {
     button.classList.remove('active');
   }
-});
+})

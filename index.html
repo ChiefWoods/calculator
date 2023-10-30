@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <link rel="stylesheet" href="https://chiefwoods.github.io/footer-template/template.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/x-icon" href="icons/calculator.svg">
-    <script src="script.js" defer></script>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="https://chiefwoods.github.io/footer-template/template.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="icons/calculator.svg">
+  <script src="script.js" defer></script>
+</head>
 
-  <body>
-    <main>
-      <div class="display">
-        <div class="head">
-          <span class="brand">WOODS</span>
-          <span class="model">SE-104</span>
-          <div class="solar">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-        <div class="screen">
-          <span class="previous"></span>
-          <span class="current">0</span>
+<body>
+  <main>
+    <div class="face">
+      <div>
+        <span class="brand">WOODS</span>
+        <span class="model">SE-104</span>
+        <div class="solar">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
-      <div class="keypad">
-        <button class="negative" value="negative" data-code="KeyN" id="negative">&#177;</button>
-        <button class="erase" value="clear" data-code="Escape KeyC" id="clear">C</button>
-        <button class="erase" value="backspace" data-code="Backspace Delete">&#8592;</button>
-        <button class="operator" value="divide" data-code="NumpadDivide" id="divide">&#247;</button>
-        <button class="operator" value="multiply" data-code="NumpadMultiply" id="multiply">&#215;</button>
-        <button class="operator" value="subtract" data-code="NumpadSubtract Minus" id="subtract">&#8722;</button>
-        <button class="operator" value="add" data-code="NumpadAdd" id="add">&#43;</button>
-        <button class="operator" value="equal" data-code="NumpadEnter Equal" id="equal">&#61;</button>
-        <button class="digit" value="seven" data-code="Numpad7 Digit7" id="seven">7</button>
-        <button class="digit" value="eight" data-code="Numpad8 Digit8" id="eight">8</button>
-        <button class="digit" value="nine" data-code="Numpad9 Digit9" id="nine">9</button>
-        <button class="digit" value="four" data-code="Numpad4 Digit4" id="four">4</button>
-        <button class="digit" value="five" data-code="Numpad5 Digit5" id="five">5</button>
-        <button class="digit" value="six" data-code="Numpad6 Digit6" id="six">6</button>
-        <button class="digit" value="one" data-code="Numpad1 Digit1" id="one">1</button>
-        <button class="digit" value="two" data-code="Numpad2 Digit2" id="two">2</button>
-        <button class="digit" value="three" data-code="Numpad3 Digit3" id="three">3</button>
-        <button class="digit" value="zero" data-code="Numpad0 Digit0" id="zero">0</button>
-        <button class="digit" value="decimal" data-code="NumpadDecimal Period" id="decimal">.</button>
+      <div class="screen">
+        <span class="input"></span>
+        <span class="output" id="display">0</span>
       </div>
-    </main>
-    <footer>
-      <span class="made-by">Copyright @
-        <script>document.write(new Date().getFullYear())</script> ChiefWoods
-      </span>
-      <a class="github-link" href="https://github.com/ChiefWoods/calculator" target="_blank">
-        <img src="./icons/github.svg" class="github-icon" alt="GitHub">
-      </a>
-    </footer>
-  </body>
+    </div>
+    <div class="keypad">
+      <button class="negative" id="negative" data-key="n">&#177;</button>
+      <button class="erase" id="clear" data-key="Escape">C</button>
+      <button class="erase" id="backspace" data-key="Backspace">&#8592;</button>
+      <button class="operator" id="divide" data-key="/">&#247;</button>
+      <button class="digit" id="seven" data-key="7">7</button>
+      <button class="digit" id="eight" data-key="8">8</button>
+      <button class="digit" id="nine" data-key="9">9</button>
+      <button class="operator" id="multiply" data-key="*">&#215;</button>
+      <button class="digit" id="four" data-key="4">4</button>
+      <button class="digit" id="five" data-key="5">5</button>
+      <button class="digit" id="six" data-key="6">6</button>
+      <button class="operator" id="subtract" data-key="-">&#8722;</button>
+      <button class="digit" id="one" data-key="1">1</button>
+      <button class="digit" id="two" data-key="2">2</button>
+      <button class="digit" id="three" data-key="3">3</button>
+      <button class="operator" id="add" data-key="+">&#43;</button>
+      <button class="digit" id="zero" data-key="0">0</button>
+      <button class="digit" id="decimal" data-key=".">.</button>
+      <button class="operator" id="equal" data-key="Enter">&#61;</button>
+    </div>
+  </main>
+  <footer>
+    <span class="made-by">Copyright @
+      <script>document.write(new Date().getFullYear())</script> ChiefWoods
+    </span>
+    <a class="github-link" href="https://github.com/ChiefWoods/calculator" target="_blank">
+      <img src="./icons/github.svg" class="github-icon" alt="GitHub">
+    </a>
+  </footer>
+</body>
 
 </html>
