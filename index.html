@@ -14,43 +14,45 @@
 
 <body>
   <main>
-    <div class="face">
-      <div>
-        <span class="brand">WOODS</span>
-        <span class="model">SE-104</span>
-        <div class="solar">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+    <section>
+      <div id="top">
+        <div id="head">
+          <p id="brand">WOODS</p>
+          <p id="model">SE-104</p>
+          <div id="solar">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div id="screen">
+          <p id="input"></p>
+          <p id="display">0</p>
         </div>
       </div>
-      <div class="screen">
-        <span class="input"></span>
-        <span class="output" id="display">0</span>
+      <div id="keypad">
+        <button id="negative" class="negative" data-key="n N">&#177;</button>
+        <button id="clear" class="erase" data-key="Escape c C">C</button>
+        <button id="backspace" class="erase" data-key="Backspace Delete">&#8592;</button>
+        <button id="divide" class="operator" data-key="/">&#247;</button>
+        <button id="seven" class="digit" data-key="7">7</button>
+        <button id="eight" class="digit" data-key="8">8</button>
+        <button id="nine" class="digit" data-key="9">9</button>
+        <button id="multiply" class="operator" data-key="*">&#215;</button>
+        <button id="four" class="digit" data-key="4">4</button>
+        <button id="five" class="digit" data-key="5">5</button>
+        <button id="six" class="digit" data-key="6">6</button>
+        <button id="subtract" class="operator" data-key="-">&#8722;</button>
+        <button id="one" class="digit" data-key="1">1</button>
+        <button id="two" class="digit" data-key="2">2</button>
+        <button id="three" class="digit" data-key="3">3</button>
+        <button id="add" class="operator" data-key="+">&#43;</button>
+        <button id="zero" class="digit" data-key="0">0</button>
+        <button id="decimal" class="digit" data-key=".">.</button>
+        <button id="equal" class="operator" data-key="= Enter">&#61;</button>
       </div>
-    </div>
-    <div class="keypad">
-      <button class="negative" id="negative" data-key="n">&#177;</button>
-      <button class="erase" id="clear" data-key="Escape">C</button>
-      <button class="erase" id="backspace" data-key="Backspace">&#8592;</button>
-      <button class="operator" id="divide" data-key="/">&#247;</button>
-      <button class="digit" id="seven" data-key="7">7</button>
-      <button class="digit" id="eight" data-key="8">8</button>
-      <button class="digit" id="nine" data-key="9">9</button>
-      <button class="operator" id="multiply" data-key="*">&#215;</button>
-      <button class="digit" id="four" data-key="4">4</button>
-      <button class="digit" id="five" data-key="5">5</button>
-      <button class="digit" id="six" data-key="6">6</button>
-      <button class="operator" id="subtract" data-key="-">&#8722;</button>
-      <button class="digit" id="one" data-key="1">1</button>
-      <button class="digit" id="two" data-key="2">2</button>
-      <button class="digit" id="three" data-key="3">3</button>
-      <button class="operator" id="add" data-key="+">&#43;</button>
-      <button class="digit" id="zero" data-key="0">0</button>
-      <button class="digit" id="decimal" data-key=".">.</button>
-      <button class="operator" id="equal" data-key="Enter">&#61;</button>
-    </div>
+    </section>
   </main>
   <footer>
     <span class="made-by">Copyright @

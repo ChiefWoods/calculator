@@ -2,7 +2,7 @@
 
 ![Screenshot](screenshot.png)
 
-Web calculator for [The Odin Project](https://www.theodinproject.com/).
+Web calculator for [The Odin Project](https://www.theodinproject.com/). Not to be confused with [the other calculator](https://github.com/ChiefWoods/formula-calculator).
 
 [Live Website](https://chiefwoods.github.io/calculator/)  
 

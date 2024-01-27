@@ -1,10 +1,10 @@
-const input = document.querySelector('.input');
-const output = document.querySelector('.output');
-const negative = document.querySelector('#negative');
-const clear = document.querySelector('#clear');
-const backspace = document.querySelector('#backspace');
-const operators = document.querySelectorAll('.operator');
-const digits = document.querySelectorAll('.digit');
+const inputP = document.querySelector('#input');
+const displayP = document.querySelector('#display');
+const negativeBtn = document.querySelector('#negative');
+const clearBtn = document.querySelector('#clear');
+const backspaceBtn = document.querySelector('#backspace');
+const operatorBtns = document.querySelectorAll('.operator');
+const digitBtns = document.querySelectorAll('.digit');
 
 let mode = '';
 let operand1 = '';
@@ -13,73 +13,73 @@ let shouldReset = false;
 let shouldClear = false;
 
 function clearScreen() {
-  input.textContent = '';
-  output.textContent = '0';
+  inputP.textContent = '';
+  displayP.textContent = '0';
   operand1 = '';
   operand2 = '';
   mode = '';
   shouldClear = false;
 }
 
-function resetOutput() {
-  output.textContent = '0';
+function resetDisplay() {
+  displayP.textContent = '0';
   shouldReset = false;
 }
 
-function backspaceOutput() {
+function backspaceDisplay() {
   shouldClear
     ? clearScreen()
     : shouldReset
-      ? resetOutput()
+      ? resetDisplay()
       : null;
-  output.textContent.length === 1
-    ? output.textContent = '0'
-    : output.textContent = output.textContent.slice(0, -1);
+  displayP.textContent.length === 1
+    ? displayP.textContent = '0'
+    : displayP.textContent = displayP.textContent.slice(0, -1);
 }
 
 function appendNumber(number) {
   shouldClear
     ? clearScreen()
     : shouldReset
-      ? resetOutput()
+      ? resetDisplay()
       : null;
-  if (output.textContent.length > 9) {
+  if (displayP.textContent.length > 9) {
     return alert('Maximum digit limit reached!');
   }
-  output.textContent === '0'
-    ? output.textContent = number
-    : output.textContent += number;
+  displayP.textContent === '0'
+    ? displayP.textContent = number
+    : displayP.textContent += number;
 }
 
 function appendDecimal() {
   shouldClear
     ? clearScreen()
     : shouldReset
-      ? resetOutput()
+      ? resetDisplay()
       : null;
-  if (!output.textContent.includes('.')) {
-    output.textContent += '.';
+  if (!displayP.textContent.includes('.')) {
+    displayP.textContent += '.';
   }
 }
 
 function toggleNegative() {
-  if (output.textContent === 'AND BEYOND!') {
+  if (displayP.textContent === 'AND BEYOND!') {
     clearScreen();
   } else if (shouldClear) {
-    input.textContent = '';
+    inputP.textContent = '';
     operand1 = '';
     operand2 = '';
     mode = '';
     shouldClear = false;
   }
-  if (output.textContent === '0') return;
-  output.textContent.startsWith('-')
-    ? output.textContent = output.textContent.slice(1)
-    : output.textContent = '-' + output.textContent;
+  if (displayP.textContent === '0') return;
+  displayP.textContent.startsWith('-')
+    ? displayP.textContent = displayP.textContent.slice(1)
+    : displayP.textContent = '-' + displayP.textContent;
 }
 
-function trimOutput() {
-  let num = output.textContent;
+function trimDisplay() {
+  let num = displayP.textContent;
   if (num === '') {
     num = '0';
   }
@@ -124,59 +124,59 @@ function setMode(operator) {
 }
 
 function evaluate() {
-  if (output.textContent === 'AND BEYOND!') return;
+  if (displayP.textContent === 'AND BEYOND!') return;
   if (mode === '=') { // repeated evaluation without operating
     mode = '';
-    operand1 = trimOutput();
+    operand1 = trimDisplay();
     shouldReset = true;
   } else if (shouldClear) { // repeated evaluation
-    operand1 = trimOutput();
+    operand1 = trimDisplay();
   } else {
-    operand2 = trimOutput();
+    operand2 = trimDisplay();
     shouldClear = true;
     if (mode === '÷' && operand2 === '0') { // dividing by zero
-      input.textContent = 'TO INFINITY';
-      output.textContent = 'AND BEYOND!';
+      inputP.textContent = 'TO INFINITY';
+      displayP.textContent = 'AND BEYOND!';
       return;
     }
   }
-  input.textContent = `${operand1} ${mode} ${operand2} = `;
-  output.textContent = operate(operand1, operand2, mode);
+  inputP.textContent = `${operand1} ${mode} ${operand2} = `;
+  displayP.textContent = operate(operand1, operand2, mode);
 }
 
 function setDisplay(operation) {
-  if (output.textContent === 'AND BEYOND!') return;
+  if (displayP.textContent === 'AND BEYOND!') return;
   if (mode !== '' && shouldReset) { // select operation after clicking another one
-    operand1 = trimOutput();
+    operand1 = trimDisplay();
   } else if (mode !== '' && shouldClear) { // start an operation using evaluated result
     shouldClear = false;
     shouldReset = true;
-    operand1 = trimOutput();
+    operand1 = trimDisplay();
   } else if (mode !== '' && !shouldClear) { // append new operation
-    operand2 = trimOutput();
+    operand2 = trimDisplay();
     if (mode === '÷' && operand2 === '0') { // dividing by zero
       shouldClear = true;
-      input.textContent = 'TO INFINITY';
-      output.textContent = 'AND BEYOND!';
+      inputP.textContent = 'TO INFINITY';
+      displayP.textContent = 'AND BEYOND!';
       return;
     } else {
       shouldReset = true;
-      output.textContent = operate(operand1, operand2, mode);
-      operand1 = trimOutput();
+      displayP.textContent = operate(operand1, operand2, mode);
+      operand1 = trimDisplay();
     }
   } else if (mode === '') { // first operation
     shouldReset = true;
-    operand1 = trimOutput();
+    operand1 = trimDisplay();
   }
   setMode(operation);
-  input.textContent = `${operand1} ${mode}`;
+  inputP.textContent = `${operand1} ${mode}`;
 }
 
-negative.addEventListener('click', toggleNegative);
-clear.addEventListener('click', clearScreen);
-backspace.addEventListener('click', backspaceOutput);
+negativeBtn.addEventListener('click', toggleNegative);
+clearBtn.addEventListener('click', clearScreen);
+backspaceBtn.addEventListener('click', backspaceDisplay);
 
-operators.forEach(operator => {
+operatorBtns.forEach(operator => {
   operator.addEventListener('click', e => {
     e.target.id === 'equal' && mode !== ''
       ? evaluate()
@@ -184,7 +184,7 @@ operators.forEach(operator => {
   })
 })
 
-digits.forEach(digit => {
+digitBtns.forEach(digit => {
   digit.addEventListener('click', e => {
     e.target.id !== 'decimal'
       ? appendNumber(e.target.textContent)
@@ -193,32 +193,29 @@ digits.forEach(digit => {
 })
 
 window.addEventListener('keydown', e => {
-  console.log(e.key)
-  console.log(['Backspace', 'Delete'].includes(e.key))
-  const button = document.querySelector(`[data-key='${e.key}']`);
-  console.log(button)
+  const button = document.querySelector(`[data-key*='${e.key}']`);
   if (button) {
     button.classList.add('active');
-    e.key === 'n'
+    ['n', 'N'].includes(e.key)
       ? toggleNegative()
-      : e.key === 'Escape'
+      : ['Escape', 'c', 'C'].includes(e.key)
         ? clearScreen()
-        : e.key === 'Backspace'
-          ? backspaceOutput()
+        : ['Backspace', 'Delete'].includes(e.key)
+          ? backspaceDisplay()
           : ['+', '-', '*', '/'].includes(e.key)
             ? setDisplay(e.key)
             : parseFloat(e.key) >= 0 && parseFloat(e.key) <= 9
               ? appendNumber(e.key)
               : e.key === '.'
                 ? appendDecimal()
-                : e.key === 'Enter' && mode != ''
+                : ['Enter', '='].includes(e.key) && mode != ''
                   ? evaluate()
                   : null;
   }
 })
 
 window.addEventListener('keyup', e => {
-  const button = document.querySelector(`[data-key='${e.key}']`);
+  const button = document.querySelector(`[data-key*='${e.key}']`);
   if (button) {
     button.classList.remove('active');
   }
