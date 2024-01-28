@@ -1,5 +1,5 @@
-const inputP = document.querySelector('#input');
-const displayP = document.querySelector('#display');
+const input = document.querySelector('#input');
+const display = document.querySelector('#display');
 const negativeBtn = document.querySelector('#negative');
 const clearBtn = document.querySelector('#clear');
 const backspaceBtn = document.querySelector('#backspace');
@@ -13,8 +13,8 @@ let shouldReset = false;
 let shouldClear = false;
 
 function clearScreen() {
-  inputP.textContent = '';
-  displayP.textContent = '0';
+  input.textContent = '';
+  display.textContent = '0';
   operand1 = '';
   operand2 = '';
   mode = '';
@@ -22,7 +22,7 @@ function clearScreen() {
 }
 
 function resetDisplay() {
-  displayP.textContent = '0';
+  display.textContent = '0';
   shouldReset = false;
 }
 
@@ -32,9 +32,9 @@ function backspaceDisplay() {
     : shouldReset
       ? resetDisplay()
       : null;
-  displayP.textContent.length === 1
-    ? displayP.textContent = '0'
-    : displayP.textContent = displayP.textContent.slice(0, -1);
+  display.textContent.length === 1
+    ? display.textContent = '0'
+    : display.textContent = display.textContent.slice(0, -1);
 }
 
 function appendNumber(number) {
@@ -43,12 +43,12 @@ function appendNumber(number) {
     : shouldReset
       ? resetDisplay()
       : null;
-  if (displayP.textContent.length > 9) {
+  if (display.textContent.length > 9) {
     return alert('Maximum digit limit reached!');
   }
-  displayP.textContent === '0'
-    ? displayP.textContent = number
-    : displayP.textContent += number;
+  display.textContent === '0'
+    ? display.textContent = number
+    : display.textContent += number;
 }
 
 function appendDecimal() {
@@ -57,29 +57,29 @@ function appendDecimal() {
     : shouldReset
       ? resetDisplay()
       : null;
-  if (!displayP.textContent.includes('.')) {
-    displayP.textContent += '.';
+  if (!display.textContent.includes('.')) {
+    display.textContent += '.';
   }
 }
 
 function toggleNegative() {
-  if (displayP.textContent === 'AND BEYOND!') {
+  if (display.textContent === 'AND BEYOND!') {
     clearScreen();
   } else if (shouldClear) {
-    inputP.textContent = '';
+    input.textContent = '';
     operand1 = '';
     operand2 = '';
     mode = '';
     shouldClear = false;
   }
-  if (displayP.textContent === '0') return;
-  displayP.textContent.startsWith('-')
-    ? displayP.textContent = displayP.textContent.slice(1)
-    : displayP.textContent = '-' + displayP.textContent;
+  if (display.textContent === '0') return;
+  display.textContent.startsWith('-')
+    ? display.textContent = display.textContent.slice(1)
+    : display.textContent = '-' + display.textContent;
 }
 
 function trimDisplay() {
-  let num = displayP.textContent;
+  let num = display.textContent;
   if (num === '') {
     num = '0';
   }
@@ -109,7 +109,7 @@ function operate(num1, num2, operator) {
         ? num1 * num2
         : operator === '÷'
           ? num1 / num2
-          : null;
+          : num1;
   return roundAndExponent(num);
 }
 
@@ -118,13 +118,11 @@ function setMode(operator) {
     ? '×'
     : operator === '/'
       ? '÷'
-      : operator === 'Enter'
-        ? '='
-        : operator;
+      : operator;
 }
 
 function evaluate() {
-  if (displayP.textContent === 'AND BEYOND!') return;
+  if (display.textContent === 'AND BEYOND!') return;
   if (mode === '=') { // repeated evaluation without operating
     mode = '';
     operand1 = trimDisplay();
@@ -135,17 +133,17 @@ function evaluate() {
     operand2 = trimDisplay();
     shouldClear = true;
     if (mode === '÷' && operand2 === '0') { // dividing by zero
-      inputP.textContent = 'TO INFINITY';
-      displayP.textContent = 'AND BEYOND!';
+      input.textContent = 'TO INFINITY';
+      display.textContent = 'AND BEYOND!';
       return;
     }
   }
-  inputP.textContent = `${operand1} ${mode} ${operand2} = `;
-  displayP.textContent = operate(operand1, operand2, mode);
+  input.textContent = `${operand1} ${mode} ${operand2} = `;
+  display.textContent = operate(operand1, operand2, mode);
 }
 
 function setDisplay(operation) {
-  if (displayP.textContent === 'AND BEYOND!') return;
+  if (display.textContent === 'AND BEYOND!') return;
   if (mode !== '' && shouldReset) { // select operation after clicking another one
     operand1 = trimDisplay();
   } else if (mode !== '' && shouldClear) { // start an operation using evaluated result
@@ -156,12 +154,13 @@ function setDisplay(operation) {
     operand2 = trimDisplay();
     if (mode === '÷' && operand2 === '0') { // dividing by zero
       shouldClear = true;
-      inputP.textContent = 'TO INFINITY';
-      displayP.textContent = 'AND BEYOND!';
+      input.textContent = 'TO INFINITY';
+      display.textContent = 'AND BEYOND!';
       return;
     } else {
       shouldReset = true;
-      displayP.textContent = operate(operand1, operand2, mode);
+      setMode(operation);
+      display.textContent = operate(operand1, operand2, mode);
       operand1 = trimDisplay();
     }
   } else if (mode === '') { // first operation
@@ -169,7 +168,7 @@ function setDisplay(operation) {
     operand1 = trimDisplay();
   }
   setMode(operation);
-  inputP.textContent = `${operand1} ${mode}`;
+  input.textContent = `${operand1} ${mode}`;
 }
 
 negativeBtn.addEventListener('click', toggleNegative);
@@ -180,7 +179,9 @@ operatorBtns.forEach(operator => {
   operator.addEventListener('click', e => {
     e.target.id === 'equal' && mode !== ''
       ? evaluate()
-      : setDisplay(e.target.dataset.key);
+      : e.target.dataset.key.match(/(=|Enter)/)
+        ? setDisplay('=')
+        : setDisplay(e.target.dataset.key);
   })
 })
 
@@ -208,9 +209,11 @@ window.addEventListener('keydown', e => {
               ? appendNumber(e.key)
               : e.key === '.'
                 ? appendDecimal()
-                : ['Enter', '='].includes(e.key) && mode != ''
+                : ['Enter', '='].includes(e.key) && mode !== ''
                   ? evaluate()
-                  : null;
+                  : ['Enter', '='].includes(e.key) && mode === ''
+                    ? setDisplay('=')
+                    : null;
   }
 })
 
