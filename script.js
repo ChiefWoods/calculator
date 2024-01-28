@@ -32,9 +32,9 @@ function backspaceDisplay() {
     : shouldReset
       ? resetDisplay()
       : null;
-  display.textContent.length === 1
-    ? display.textContent = '0'
-    : display.textContent = display.textContent.slice(0, -1);
+  display.textContent = display.textContent.length === 1
+    ? '0'
+    : display.textContent.slice(0, -1);
 }
 
 function appendNumber(number) {
@@ -103,7 +103,7 @@ function operate(num1, num2, operator) {
   num2 = Number(num2);
   let num = operator === '+'
     ? num1 + num2
-    : operator === '-'
+    : operator === '−'
       ? num1 - num2
       : operator === '×'
         ? num1 * num2
@@ -118,7 +118,9 @@ function setMode(operator) {
     ? '×'
     : operator === '/'
       ? '÷'
-      : operator;
+      : operator === '-'
+        ? '−'
+        : operator;
 }
 
 function evaluate() {
