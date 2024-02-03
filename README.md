@@ -11,6 +11,7 @@ Web calculator for [The Odin Project](https://www.theodinproject.com/). Not to b
 ## Features
 
 - Perform basic arithmetic operations
+- Runs on immediate execution logic
 - Toggle between positive and negative numbers
 - Backspace available
 - Chainable operations
